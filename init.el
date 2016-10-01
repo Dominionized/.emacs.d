@@ -38,30 +38,53 @@
         (evil-leader/set-key
           "TAB" 'alternate-buffer
           "g" 'magit-status
-          "bb" 'helm-buffers-list
+          "bb" 'switch-to-buffer
           "bs" (lambda () (interactive) (switch-to-buffer "*scratch*"))
           "bd" 'evil-delete-buffer
-          "ff" 'helm-find-files
-          "pp" 'helm-projectile-switch-project)))))
+          "ff" 'counsel-find-file
+          "pp" 'projectile-switch-project)))))
 
 ;; HELM
-(use-package helm
+;; (use-package helm
+;;   :ensure t
+;;   :init
+;;   (require 'helm-config)
+;;   :config
+;;   (helm-mode 1)
+;;   :bind
+;;   (("M-x" . helm-M-x)
+;;    ("C-x C-f" . helm-find-files)
+;;    ("C-p" . helm-projectile)
+;;    :map helm-map
+;;    ("C-j" . helm-next-line)
+;;    ("C-k" . helm-previous-line)
+;;    :map helm-find-files-map
+;;    ("C-h" . helm-find-files-up-one-level)
+;;    ("<tab>" . helm-execute-persistent-action)
+;;    ("C-l" . helm-execute-persistent-action)))
+
+;; ;; Make helm always display at the bottom
+;; (add-to-list 'display-buffer-alist
+;;                     `(,(rx bos "*helm" (* not-newline) "*" eos)
+;;                          (display-buffer-in-side-window)
+;;                          (inhibit-same-window . t)
+;;                          (window-height . 0.4)))
+
+;; Ivy
+(use-package ivy
   :ensure t
-  :init
-  (require 'helm-config)
   :config
-  (helm-mode 1)
+  (setq ivy-count-format "")
   :bind
-  (("M-x" . helm-M-x)
-   ("C-x C-f" . helm-find-files)
-   ("C-p" . helm-projectile)
-   :map helm-map
-   ("C-j" . helm-next-line)
-   ("C-k" . helm-previous-line)
-   :map helm-find-files-map
-   ("C-h" . helm-find-files-up-one-level)
-   ("<tab>" . helm-execute-persistent-action)
-   ("C-l" . helm-execute-persistent-action)))
+  (:map ivy-minibuffer-map
+   ("C-j" . ivy-next-line)
+   ("C-k" . ivy-previous-line)))
+
+(use-package counsel
+  :ensure t
+  :bind
+  (("M-x" . counsel-M-x)
+   ("C-x C-f" . counsel-find-file)))
 
 ;; MAGIT
 (use-package magit

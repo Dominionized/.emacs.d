@@ -4,4 +4,4 @@
   (progn
     (golden-ratio-mode 1)
     (evil-leader/set-key
-      "t g" (golden-ratio-mode))))
+      "tg" (golden-ratio-mode))))
