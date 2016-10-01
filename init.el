@@ -96,6 +96,12 @@
    ("C-j" . company-select-next)
    ("C-k" . company-select-previous)))
 
+;; FLYCHECK
+(use-package flycheck
+  :ensure t
+  :config
+  (global-flycheck-mode))
+
 ;; MAGIT
 (use-package magit
   :ensure t
