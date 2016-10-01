@@ -79,12 +79,22 @@
   (:map ivy-minibuffer-map
    ("C-j" . ivy-next-line)
    ("C-k" . ivy-previous-line)))
-
 (use-package counsel
   :ensure t
   :bind
   (("M-x" . counsel-M-x)
    ("C-x C-f" . counsel-find-file)))
+
+;; COMPANY
+(use-package company
+  :ensure t
+  :init
+  (progn
+    (add-hook 'prog-mode-hook 'company-mode))
+  :bind
+  (:map company-active-map
+   ("C-j" . company-select-next)
+   ("C-k" . company-select-previous)))
 
 ;; MAGIT
 (use-package magit
