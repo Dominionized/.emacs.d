@@ -18,6 +18,10 @@
 (custom-set-variables
  '(truncate-lines t))
 
+;; Remove default scratch message
+(custom-set-variables
+ '(initial-scratch-message nil))
+
 ;; EVIL-MODE
 (use-package evil
   :ensure t
@@ -43,32 +47,6 @@
           "bd" 'evil-delete-buffer
           "ff" 'counsel-find-file
           "pp" 'projectile-switch-project)))))
-
-;; HELM
-;; (use-package helm
-;;   :ensure t
-;;   :init
-;;   (require 'helm-config)
-;;   :config
-;;   (helm-mode 1)
-;;   :bind
-;;   (("M-x" . helm-M-x)
-;;    ("C-x C-f" . helm-find-files)
-;;    ("C-p" . helm-projectile)
-;;    :map helm-map
-;;    ("C-j" . helm-next-line)
-;;    ("C-k" . helm-previous-line)
-;;    :map helm-find-files-map
-;;    ("C-h" . helm-find-files-up-one-level)
-;;    ("<tab>" . helm-execute-persistent-action)
-;;    ("C-l" . helm-execute-persistent-action)))
-
-;; ;; Make helm always display at the bottom
-;; (add-to-list 'display-buffer-alist
-;;                     `(,(rx bos "*helm" (* not-newline) "*" eos)
-;;                          (display-buffer-in-side-window)
-;;                          (inhibit-same-window . t)
-;;                          (window-height . 0.4)))
 
 ;; Ivy
 (use-package ivy
