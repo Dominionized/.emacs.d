@@ -88,7 +88,12 @@
     :ensure t))
 
 ;; PROJECTILE
-(use-package projectile :ensure t)
+(use-package projectile :ensure t
+  :config
+  (progn
+    (custom-set-variables
+     '(projectile-enable-caching t))
+    (projectile-global-mode t)))
 (use-package helm-projectile :ensure t
   :config
   (define-key evil-normal-state-map "\C-p" 'helm-projectile))
