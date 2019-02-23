@@ -1,4 +1,12 @@
-;; PACKAGES
+;;;; init.el -- dominionized's Emacs config
+;-*-Emacs-Lisp-*-
+
+;;; Commentary:
+;;
+;; Rien à dire.
+;;
+;;; Code:
+
 (require 'package)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -18,7 +26,6 @@
 ;; Indent with 2 spaces everywhere
 (custom-set-variables
   ;; Use 2 spaces everywhere
-  '(evil-shift-width 2)
   '(tab-width 2)
   '(css-indent-offset 2)
   '(js2-basic-offset 2)
@@ -37,8 +44,9 @@
 ;; EVIL-MODE
 (use-package evil
   :ensure t
-  :init
-  (setq evil-want-C-u-scroll t)
+  :custom
+  (evil-want-C-u-scroll t)
+  (evil-shift-width 2)
   :config
   (progn
     (evil-mode t)))
@@ -75,8 +83,8 @@
 
 (use-package evil-nerd-commenter
   :ensure t
-  :config
-  (define-key evil-normal-state-map "gc" 'evilnc-comment-operator))
+  :bind (:map evil-normal-state-map
+         ("gc" . evilnc-comment-operator)))
 
 (use-package evil-surround
   :ensure t
@@ -88,8 +96,8 @@
   :ensure t
   :config
   (setq ivy-count-format "")
-  (customize-set-variable
-   'ivy-on-del-error-function 'ignore)
+  :custom
+  (ivy-on-del-error-function 'ignore)
   :bind
   (:map ivy-minibuffer-map
         ("C-j" . 'ivy-next-line)
@@ -104,9 +112,7 @@
 ;; COMPANY
 (use-package company
   :ensure t
-  :init
-  (progn
-    (add-hook 'prog-mode-hook 'company-mode))
+  :hook (prog-mode . company-mode)
   :bind
   (:map company-active-map
    ("C-j" . company-select-next)
@@ -136,20 +142,17 @@
              '(evil-window-left
                evil-window-right
                evil-window-up
-               evil-window-down)))
-    ))
+               evil-window-down)))))
 
 ;; PROJECTILE
 (use-package projectile :ensure t
   :config
   (use-package ripgrep :ensure t)
-  (progn
-    (custom-set-variables
-     '(projectile-enable-caching t)
-     '(projectile-completion-system 'ivy)
-     '(projectile-indexing-method 'alien))
-    (projectile-mode t)
-    ))
+  (projectile-mode t)
+  :custom
+  (projectile-enable-caching t)
+  (projectile-completion-system 'ivy)
+  (projectile-indexing-method 'alien))
 
 ;; WHICH-KEY (got spoiled by spacemacs)
 (use-package which-key
@@ -161,7 +164,7 @@
 
 (use-package pug-mode :ensure t)
 (use-package js2-mode :ensure t
-  :config (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
+  :mode "\\.js\\'")
 
 ; Enable auto-indent and auto-pair
 (electric-indent-mode t)
@@ -175,14 +178,12 @@
 
 ;; THEMES
 (use-package solarized-theme :ensure t
-  :init
-  (progn
-    (setq solarized-high-contrast-mode-line 1))
-  :config
-  (custom-set-variables
-    '(solarized-high-contrast-mode-line t)
-    '(solarized-scale-org-headlines nil)
-    '(solarized-use-variable-pitch nil)))
+  :custom
+  (solarized-high-contrast-mode-line 1)
+  (solarized-high-contrast-mode-line t)
+  (solarized-scale-org-headlines nil)
+  (solarized-use-variable-pitch nil))
+
 (use-package gruvbox-theme :ensure t)
 (load-theme 'gruvbox t)
 
@@ -194,8 +195,7 @@
 
 ;; FUNCTIONS
 (defun alternate-buffer ()
-  "Switch back and forth between current and last buffer in the
-current window."
+  "Switch back and forth between current and last buffer in the current window."
   (interactive)
     (switch-to-buffer (car (evil-alternate-buffer))))
 
@@ -211,3 +211,6 @@ current window."
              (load file)
          ('error (with-current-buffer "*scratch*"
                     (insert (format "[INIT ERROR]\n%s\n%s\n\n" file ex))))))
+
+(provide 'init)
+;;; init.el ends here
